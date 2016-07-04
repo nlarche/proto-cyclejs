@@ -2,7 +2,7 @@ import xs from 'xstream'  // eslint-disable-line no-unused-vars
 import {html} from 'snabbdom-jsx'; // eslint-disable-line no-unused-vars
 
 const intent = sources => {
-  const plus$ = sources.DOM.select('#button-plus').events('click').map(() => +1)
+  const map$ = sources.DOM.select('#map').events('click').map(() => +1).startWith()
   const moins$ = sources.DOM.select('#button-moins').events('click').map(() => -1)
   return {
     inputValue$: xs.merge(plus$, moins$)
