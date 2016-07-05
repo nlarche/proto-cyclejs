@@ -6,7 +6,7 @@ module.exports = {
   entry: (ENV == "production" ?
     ["./src/main"] :
     [
-      "webpack-dev-server/client?http://localhost:8080",
+      "webpack-dev-server/client?http://localhost:3001",
       "webpack/hot/dev-server",
       "./src/main"
     ]
