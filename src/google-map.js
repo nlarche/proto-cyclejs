@@ -1,16 +1,36 @@
-  export default class GoogleMapWidget {
-      constructor(initialPosition){
-        this.type = 'Widget'
-        this.position = initialPosition
-      }
-      init(){
-        const elem = document.createElement('div')
-        this.map = new google.maps.Map(elem)
-        //this.map.setPosition(this.position)
-        return elem
-      }
-      update(prev, elem){
-        this.map = this.map || prev.map
-        this.map.setPosition(this.position)
-      }
+import fromEvent from 'xstream/extra/fromEvent'
+
+export default function makeGoogleMapDriver(selector) {
+
+  const elem = document.querySelector(selector)
+
+  const map = new google.maps.Map(elem, {
+    zoom: 4
+  });
+
+  function update(value) {
+    map.panTo(value.center);
+    new google.maps.Marker({
+      position: value.center,
+      map: map,
+    });
   }
+
+  function createEvent(evName) {
+    return fromEvent(el, evName)
+      .filter(() => map)
+      .map((ev) => map.getElementsAtEvent(ev))
+  }
+
+  return function googleMapDriver(sink$) {
+    sink$.addListener({
+      next: update,
+      error: () => { },
+      complete: () => { }
+    })
+    return {
+      events: createEvent,
+    }
+
+  }
+}
