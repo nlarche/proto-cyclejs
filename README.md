@@ -1,2 +1,2 @@
-# proto-geo-firebase-cyclejs
-proto-geo-firebase with cyclejs
+# proto-cyclejs
+exemples with cyclejs
